@@ -22,7 +22,7 @@ def is_complex(user_data: str) -> bool | tuple:
                     user_data[1] = user_data[1].replace('.','')
                 else:
                     return False
-            if user_data[0].isdigit() and user_data[1].isdigit():
+            if (user_data[0].isdigit() and user_data[1].isdigit()) or (user_data[0].isdigit and user_data[1]==''):
 
                 return True
 
@@ -40,7 +40,7 @@ def is_complex(user_data: str) -> bool | tuple:
                     user_data[1] = user_data[1].replace('.','')
                 else:
                     return False
-            if user_data[0].isdigit() and user_data[1].isdigit():
+            if (user_data[0].isdigit() and user_data[1].isdigit()) or (user_data[0].isdigit and user_data[1]==''):
                 return True
 
 
@@ -56,7 +56,7 @@ def is_complex(user_data: str) -> bool | tuple:
                     user_data[1] = user_data[1].replace('.','')
                 else:
                     return False
-            if user_data[0].isdigit() and user_data[1].isdigit():
+            if (user_data[0].isdigit() and user_data[1].isdigit()) or (user_data[0].isdigit and user_data[1]==''):
                 return True
 
 
@@ -72,7 +72,7 @@ def is_complex(user_data: str) -> bool | tuple:
                     user_data[1] = user_data[1].replace('.','')
                 else:
                     return False
-            if user_data[0].isdigit() and user_data[1].isdigit():
+            if (user_data[0].isdigit() and user_data[1].isdigit()) or (user_data[0].isdigit and user_data[1]==''):
                 return True
 
 
