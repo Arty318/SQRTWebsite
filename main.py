@@ -44,7 +44,7 @@ def is_complex(user_data: str) -> bool | tuple:
                 return True
 
 
-        elif user_data.count('+')==0 and user_data.count('-')==1 and user_data.find('-')!=0 and user_data.find('-')!=(len(user_data)): # если число имеет вид a-bi
+        if user_data.count('+')==0 and user_data.count('-')==1 and user_data.find('-')!=0 and user_data.find('-')!=(len(user_data)): # если число имеет вид a-bi
             user_data = user_data.split('-')
             if user_data[0].count('.')!=0:
                 if user_data[0].find('.')!=0 and user_data[0].find('.')!=(len(user_data[0])-1) and user_data.count('.')==1:
@@ -60,7 +60,7 @@ def is_complex(user_data: str) -> bool | tuple:
                 return True
 
 
-        elif user_data.count('+')==0 and user_data.count('-')==2 and user_data[0]=='-' and user_data[1:].find('-')!=0 and user_data[1:].find('-')!=(len(user_data[1:])): # если число имеет вид -a-bi
+        if user_data.count('+')==0 and user_data.count('-')==2 and user_data[0]=='-' and user_data[1:].find('-')!=0 and user_data[1:].find('-')!=(len(user_data[1:])): # если число имеет вид -a-bi
             user_data = user_data[1:].split('-')
             if user_data[0].count('.')!=0:
                 if user_data[0].find('.')!=0 and user_data[0].find('.')!=(len(user_data[0])-1) and user_data.count('.')==1:
@@ -76,11 +76,25 @@ def is_complex(user_data: str) -> bool | tuple:
                 return True
 
 
+        if user_data[0].isdigit() and user_data[-1]=='i': # число вида bi
+            if user_data[:-1].isdigit():
+                return True
+
+
+        if user_data[0]=='-' and user_data[-1]=='i': # число вида -bi
+            if user_data[1:-1].isdigit():
+                return True
+
+
     return False
 
 def get_re_and_im(user_data: str) -> tuple:
     '''Функция, извлекающая действительную и мнимую часть из строкового представления комплексного числа'''
     user_data = user_data[:-1]
+    if user_data[0].isdigit() and user_data[:-1].isdigit():
+        return float(0),float(user_data[:-1])
+    if user_data[1]=='-' and user_data[1:-1].isdigit():
+        return float(0),float(user_data[:-1])
     if user_data[0]=='-':
         user_data = user_data[1:]
     if user_data.count('+')==1:
