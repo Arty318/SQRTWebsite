@@ -96,3 +96,4 @@ def get_number(request: Request, number: str = Form(...)):
         a,b = get_re_and_im(number)
         result = get_complex_sqrt(a,b)
         return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего комплексного числа", "number": number, "result": f"Первый корень равен: {result[0]} ; Второй корень равен: {result[1]}"})
+    return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Не валидное значение"})
