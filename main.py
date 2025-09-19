@@ -113,7 +113,31 @@ def get_re_and_im(user_data: str) -> tuple:
 
 def get_complex_sqrt(re: int, im: int):
     '''Функция, извлекающая квадратный корень из комплексного числа с ненулевыми a и b'''
-    D = (-4*re + 4*((re**2 + im**2)**0.5))/8
+    if re==0:
+        if im>0:
+            D = (-4 * 0 + 4 * ((0 ** 2 + 1 ** 2) ** 0.5)) / 8
+
+            sqrt_im_1 = D ** 0.5
+            sqrt_im_2 = -D ** 0.5
+
+            sqrt_re_1 = im / (2 * sqrt_im_1)
+            sqrt_re_2 = im / (2 * sqrt_im_2)
+
+            return f"{(im**0.5)*sqrt_re_1}+{(im**0.5)*sqrt_im_1}i", f"{(im**0.5)*sqrt_re_2}{(im**0.5)*sqrt_im_2}i"
+
+        if im<0:
+            D = (-4 * 0 + 4 * ((0 ** 2 + 1 ** 2) ** 0.5)) / 8
+
+            sqrt_im_1 = D ** 0.5
+            sqrt_im_2 = -D ** 0.5
+
+            sqrt_re_1 = im / (2 * sqrt_im_1)
+            sqrt_re_2 = im / (2 * sqrt_im_2)
+
+            return f"{-1*(im**0.5)*sqrt_re_1}+{(im**0.5)*sqrt_im_1}i", f"{-1*(im**0.5)*sqrt_re_2}{(im**0.5)*sqrt_im_2}i"
+
+
+    D = (-4 * 0 + 4 * ((0 ** 2 + 1 ** 2) ** 0.5)) / 8
 
     sqrt_im_1 = D**0.5
     sqrt_im_2 = -D**0.5
