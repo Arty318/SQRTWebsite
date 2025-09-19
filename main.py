@@ -76,13 +76,13 @@ def is_complex(user_data: str) -> bool | tuple:
                 return True
 
 
-        if user_data[0].isdigit() and user_data[-1]=='i': # число вида bi
-            if user_data[:-1].isdigit():
+        if user_data[0].isdigit(): # число вида bi
+            if user_data.isdigit():
                 return True
 
 
-        if user_data[0]=='-' and user_data[-1]=='i': # число вида -bi
-            if user_data[1:-1].isdigit():
+        if user_data[0]=='-': # число вида -bi
+            if user_data.isdigit():
                 return True
 
 
