@@ -93,7 +93,7 @@ def get_re_and_im(user_data: str) -> tuple:
     user_data = user_data[:-1]
     if user_data[0].isdigit() and user_data[:-1].isdigit():
         return float(0),float(user_data[:-1])
-    if user_data[1]=='-' and user_data[1:-1].isdigit():
+    if user_data[0]=='-' and user_data[1:-1].isdigit():
         return float(0),float(user_data[:-1])
     if user_data[0]=='-':
         user_data = user_data[1:]
