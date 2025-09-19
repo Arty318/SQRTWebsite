@@ -9,10 +9,30 @@ def is_complex(user_data: str) -> bool | tuple:
         user_data = user_data[:-1]
         if user_data.count('+')==1 and user_data.count('-')==0 and user_data.find('+')!=0 and user_data.find('+')!=(len(user_data)-1): # если число имеет вид a+bi
             user_data = user_data.split('+')
+            if user_data[0].count('.')!=0:
+                if user_data[0].find('.')!=0 and user_data[0].find('.')!=(len(user_data[0])-1) and user_data.count('.')==1:
+                    user_data[0] = user_data[0].replace('.','')
+                else:
+                    return False
+            if user_data[1].count('.')!=0:
+                if user_data[1].find('.')!=0 and user_data[1].find('.')!=(len(user_data[1])-1) and user_data[1].count('.')==1:
+                    user_data[1] = user_data[1].replace('.','')
+                else:
+                    return False
             if user_data[0].isdigit() and user_data[1].isdigit():
                 return True
         elif user_data.count('+')==0 and user_data.count('-')==1 and user_data.find('-')!=0 and user_data.find('-')!=(len(user_data)-1): # если число имеет вид a-bi
             user_data = user_data.split('-')
+            if user_data[0].count('.')!=0:
+                if user_data[0].find('.')!=0 and user_data[0].find('.')!=(len(user_data[0])-1) and user_data.count('.')==1:
+                    user_data[0] = user_data[0].replace('.','')
+                else:
+                    return False
+            if user_data[1].count('.')!=0:
+                if user_data[1].find('.')!=0 and user_data[1].find('.')!=(len(user_data[1])-1) and user_data.count('.')==1:
+                    user_data[1] = user_data[1].replace('.','')
+                else:
+                    return False
             if user_data[0].isdigit() and user_data[1].isdigit():
                 return True
     return False
