@@ -40,8 +40,8 @@ def is_complex(user_data: str) -> bool | tuple:
                     user_data[1] = user_data[1].replace('.','')
                 else:
                     return False
-                if user_data[0].isdigit() and user_data[1].isdigit():
-                    return True
+            if user_data[0].isdigit() and user_data[1].isdigit():
+                return True
 
 
         elif user_data.count('+')==0 and user_data.count('-')==1 and user_data.find('-')!=0 and user_data.find('-')!=(len(user_data)-1): # если число имеет вид a-bi
