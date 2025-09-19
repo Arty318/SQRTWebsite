@@ -81,11 +81,15 @@ def is_complex(user_data: str) -> bool | tuple:
 def get_re_and_im(user_data: str) -> tuple:
     '''Функция, извлекающая действительную и мнимую часть из строкового представления комплексного числа'''
     user_data = user_data[:-1]
+    if user_data[0]=='-':
+        user_data = user_data[1:]
     if user_data.count('+')==1:
         user_data = user_data.replace('+', ' ')
     else:
         user_data = user_data.replace('-', ' ')
     user_data = user_data.split()
+    if len(user_data)==1:
+        return float(user_data[0]),float(1)
     return float(user_data[0]),float(user_data[1])
 
 def get_complex_sqrt(re: int, im: int):
