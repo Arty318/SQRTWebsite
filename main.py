@@ -67,7 +67,7 @@ def get_number(request: Request, number: str = Form(...)):
             result_1 = int((-1*int(number))**0.5)
             result_2 = int(-((-1*int(number))**0.5))
 
-        return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего целого, отрицательного числа:", "number": number, "result": f"Первый корень равен: {(-1*int(number))**0.5}i ; Второй корень равен: {-((-1*int(number))**0.5)}i"})
+        return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего целого, отрицательного числа:", "number": number, "result": f"Первый корень равен: {result_1}i ; Второй корень равен: {result_2}i"})
     elif number.count(".")==1 and float(number)<0:
         buf_2 = number.split(".")
         if buf_2[0].isdigit() and buf_2[1].isdigit():
