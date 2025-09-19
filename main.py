@@ -86,7 +86,7 @@ def get_re_and_im(user_data: str) -> tuple:
     else:
         user_data = user_data.replace('-', ' ')
     user_data = user_data.split()
-    return int(user_data[0]),int(user_data[1])
+    return float(user_data[0]),float(user_data[1])
 
 def get_complex_sqrt(re: int, im: int):
     '''Функция, извлекающая квадратный корень из комплексного числа с ненулевыми a и b'''
