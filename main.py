@@ -63,7 +63,7 @@ def get_number(request: Request, number: str = Form(...)):
         result_1 = (-1*int(number))**0.5
         result_2 = -((-1*int(number))**0.5)
         buf_1 = str(result_1).split(".")
-        if all(x == 0 for x in buf_1[1]):
+        if all(x == '0' for x in buf_1[1]):
             result_1 = int((-1*int(number))**0.5)
             result_2 = int(-((-1*int(number))**0.5))
 
