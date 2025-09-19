@@ -73,13 +73,13 @@ def get_main_page(request: Request):
 def get_number(request: Request, number: str = Form(...)):
     if number.isdigit() and int(number)>0:
         return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего целого, положительного числа", "number" : number, "result": f"Первый корень равен: {(int(number))**0.5} ; Второй корень равен: {-(int(number)**0.5)}"})
-    if number.count(".")==1 and float(number)>0:
+    if number.count(".")==1 and number.count('-')==0:
         buf = number.split(".")
         if buf[0].isdigit() and buf[1].isdigit():
             return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего рационального, положительного числа", "number": number, "result": f"Первый корень равен: {(float(number))**0.5} ; Второй корень равен: {-(float(number))**0.5}"})
-    elif number.isdigit() and int(number)==0:
+    if number.isdigit() and int(number)==0:
         return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из нуля", "number": number, "result": f"Корень равен: {0}"})
-    elif number[1:].isdigit() and int(number)<0:
+    if number[0]=='-' and number[1:].isdigit():
         result_1 = (-1*int(number))**0.5
         result_2 = -((-1*int(number))**0.5)
         buf_1 = str(result_1).split(".")
@@ -88,11 +88,11 @@ def get_number(request: Request, number: str = Form(...)):
             result_2 = int(-((-1*int(number))**0.5))
 
         return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего целого, отрицательного числа", "number": number, "result": f"Первый корень равен: {result_1}i ; Второй корень равен: {result_2}i"})
-    elif number.count(".")==1 and float(number)<0:
-        buf_2 = number.split(".")
+    if number.count(".")==1 and number[0]=='-':
+        buf_2 = number[1:].split(".")
         if buf_2[0].isdigit() and buf_2[1].isdigit():
             return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего рационального, отрицательного числа", "number": number, "result": f"Первый корень равен: {(-1*float(number))**0.5}i ; Второй корень равен: {-((-1*float(number))**0.5)}i"})
-    elif is_complex(number):
+    if is_complex(number):
         a,b = get_re_and_im(number)
         result = get_complex_sqrt(a,b)
         return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "Результат вычисления корня из вашего комплексного числа", "number": number, "result": f"Первый корень равен: {result[0]} ; Второй корень равен: {result[1]}"})
