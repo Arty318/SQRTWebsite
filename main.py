@@ -105,13 +105,25 @@ def get_re_and_im(user_data: str) -> tuple:
     if user_data=='-i':
         return float(0),-float(1)
     user_data = user_data[:-1]
-    if user_data[0].isdigit() and user_data.isdigit(): # если введенно 15i
+    if user_data[0].isdigit(): # если введенно 15i
+        if user_data.isdigit():
+            return float(0),float(user_data)
+        if user_data.count('.')==1:
+            spisok = user_data.split('.')
+            if spisok[0].isdigit() and spisok[1].isdigit():
+                return float(0),float(user_data)
 
-        return float(0),float(user_data)
-    if user_data[0]=='-' and user_data[1:].isdigit(): # если введенно -15i
-        return float(0),float(user_data)
+
+    if user_data[0]=='-': # если введенно -15i
+        if user_data[1:].isdigit():
+            return float(0),float(user_data)
+        if user_data.count('.')==1:
+            spisok = user_data.split('.')
+            if spisok[0][1:].isdigit() and spisok[1].isdigit():
+                return float(0),float(user_data)
 
     if user_data[0].isdigit(): # ЕСЛИ ДЕЙСТВИТЕЛЬНАЯ ЧАСТЬ С ПЛЮСОМ
+        print(1)
         if user_data.count('+')==1: # ЕСЛИ МНИМАЯ ЧАСТЬ С ПЛЮСОМ
             user_data = user_data.split('+')
             if len(user_data)==1:
@@ -141,7 +153,9 @@ def get_re_and_im(user_data: str) -> tuple:
 
 def get_complex_sqrt(re: int, im: int):
     '''Функция, извлекающая квадратный корень из комплексного числа с ненулевыми a и b'''
+    print(re,im)
     if re==0:
+        print(1)
         if im>0:
             D = (-4 * 0 + 4 * ((0 ** 2 + 1 ** 2) ** 0.5)) / 8
 
