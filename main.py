@@ -81,11 +81,16 @@ def is_complex(user_data: str) -> bool | tuple:
 
 
         if user_data[0].isdigit(): # число вида bi
+            if user_data.count('.')==1 and user_data.find('.')!=0 and user_data.find('.')!=(len(user_data)-1):
+                user_data = user_data.replace('.','')
+
             if user_data.isdigit():
                 return True
 
 
         if user_data[0]=='-': # число вида -bi
+            if user_data.count('.')==1 and user_data.find('.')!=0 and user_data.find('.')!=(len(user_data)-1):
+                user_data = user_data.replace('.','')
             if user_data[1:].isdigit():
                 return True
 
