@@ -163,7 +163,23 @@ def get_complex_sqrt(re: int, im: int):
             if all(x=='0' for x in str(im_of_sqrt2)[str(im_of_sqrt2).find('.')+1:]):
                 im_of_sqrt2 = int(im_of_sqrt2)
 
+            if '.00000000' in str(real_of_sqrt1):
+                real_of_sqrt1 = int(str(real_of_sqrt1)[:str(real_of_sqrt1).find('.')])
+            if '.00000000' in str(real_of_sqrt2):
+                real_of_sqrt2 = int(str(real_of_sqrt2)[:str(real_of_sqrt2).find('.')])
+            if '.00000000' in str(im_of_sqrt1):
+                im_of_sqrt1 = int(str(im_of_sqrt1)[:str(im_of_sqrt1).find('.')])
+            if '.00000000' in str(im_of_sqrt2):
+                im_of_sqrt2 = int(str(im_of_sqrt2)[:str(im_of_sqrt2).find('.')])
 
+            if '.99999999' in str(real_of_sqrt1):
+                real_of_sqrt1 = int(str(real_of_sqrt1)[:str(real_of_sqrt1).find('.')])+1
+            if '.99999999' in str(real_of_sqrt2):
+                real_of_sqrt2 = int(str(real_of_sqrt2)[:str(real_of_sqrt2).find('.')])+1
+            if '.99999999' in str(im_of_sqrt1):
+                im_of_sqrt1 = int(str(im_of_sqrt1)[:str(im_of_sqrt1).find('.')])+1
+            if '.99999999' in str(im_of_sqrt2):
+                im_of_sqrt2 = int(str(im_of_sqrt2)[:str(im_of_sqrt2).find('.')])+1
 
             return f"{real_of_sqrt1}+{im_of_sqrt1}i",f"{real_of_sqrt2}{im_of_sqrt2}i"
         if im<0:
@@ -192,6 +208,24 @@ def get_complex_sqrt(re: int, im: int):
             if all(x=='0' for x in str(im_of_sqrt2)[str(im_of_sqrt2).find('.')+1:]):
                 im_of_sqrt2 = int(im_of_sqrt2)
 
+            if '.00000000' in str(real_of_sqrt1):
+                real_of_sqrt1 = int(str(real_of_sqrt1)[:str(real_of_sqrt1).find('.')])
+            if '.00000000' in str(real_of_sqrt2):
+                real_of_sqrt2 = int(str(real_of_sqrt2)[:str(real_of_sqrt2).find('.')])
+            if '.00000000' in str(im_of_sqrt1):
+                im_of_sqrt1 = int(str(im_of_sqrt1)[:str(im_of_sqrt1).find('.')])
+            if '.00000000' in str(im_of_sqrt2):
+                im_of_sqrt2 = int(str(im_of_sqrt2)[:str(im_of_sqrt2).find('.')])
+
+            if '.99999999' in str(real_of_sqrt1):
+                real_of_sqrt1 = int(str(real_of_sqrt1)[:str(real_of_sqrt1).find('.')])+1
+            if '.99999999' in str(real_of_sqrt2):
+                real_of_sqrt2 = int(str(real_of_sqrt2)[:str(real_of_sqrt2).find('.')])+1
+            if '.99999999' in str(im_of_sqrt1):
+                im_of_sqrt1 = int(str(im_of_sqrt1)[:str(im_of_sqrt1).find('.')])+1
+            if '.99999999' in str(im_of_sqrt2):
+                im_of_sqrt2 = int(str(im_of_sqrt2)[:str(im_of_sqrt2).find('.')])+1
+
             return f"{-1*((-im)**0.5)*sqrt_re_1}+{sqrt_im_1*((-im)**0.5)}i", f"{-1*((-im)**0.5)*sqrt_re_2}{sqrt_im_2*((-im)**0.5)}i"
 
 
@@ -214,6 +248,24 @@ def get_complex_sqrt(re: int, im: int):
 
     if all(x == '0' for x in str(sqrt_im_2)[str(sqrt_im_2).find('.') + 1:]):
         sqrt_im_2 = int(sqrt_im_2)
+
+    if '.00000000' in str(sqrt_im_1):
+        sqrt_im_1 = int(str(sqrt_im_1)[:str(sqrt_im_1).find('.')])
+    if '.00000000' in str(sqrt_im_2):
+        sqrt_im_2 = int(str(sqrt_im_2)[:str(sqrt_im_2).find('.')])
+    if '.00000000' in str(sqrt_re_1):
+        sqrt_re_1 = int(str(sqrt_re_1)[:str(sqrt_re_1).find('.')])
+    if '.00000000' in str(sqrt_re_2):
+        sqrt_re_2 = int(str(sqrt_re_2)[:str(sqrt_re_2).find('.')])
+
+    if '.99999999' in str(sqrt_im_1):
+        sqrt_im_1 = int(str(sqrt_im_1)[:str(sqrt_im_1).find('.')]) + 1
+    if '.99999999' in str(sqrt_im_2):
+        sqrt_im_2 = int(str(sqrt_im_2)[:str(sqrt_im_2).find('.')]) + 1
+    if '.99999999' in str(sqrt_re_1):
+        sqrt_re_1 = int(str(sqrt_re_1)[:str(sqrt_re_1).find('.')]) + 1
+    if '.99999999' in str(sqrt_re_2):
+        sqrt_re_2 = int(str(sqrt_re_2)[:str(sqrt_re_2).find('.')]) + 1
 
     return f"{sqrt_re_1}+{sqrt_im_1}i",f"{sqrt_re_2}{sqrt_im_2}i"
 
