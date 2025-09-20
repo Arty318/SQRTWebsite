@@ -7,6 +7,8 @@ def is_complex(user_data: str) -> bool | tuple:
     '''Функция проверяет, является ли полученное число формой записи комплексного числа вида a+bi'''
     if user_data=='i':
         return True
+    if user_data=='-i':
+        return True
     if user_data.count('i')==1 and user_data[-1]=='i':
         user_data = user_data[:-1]
         if user_data.count('+')==1 and user_data.count('-')==0 and user_data.find('+')!=0 and user_data.find('+')!=(len(user_data)): # если число имеет вид a+bi
@@ -95,6 +97,8 @@ def get_re_and_im(user_data: str) -> tuple:
     '''Функция, извлекающая действительную и мнимую часть из строкового представления комплексного числа'''
     if user_data=='i': # если введено просто i
         return float(0),float(1)
+    if user_data=='-i':
+        return float(0),-float(1)
     user_data = user_data[:-1]
     if user_data[0].isdigit() and user_data.isdigit(): # если введенно 15i
 
