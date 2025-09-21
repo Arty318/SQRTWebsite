@@ -1,27 +1,319 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Вычисление квадратного корня</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="title">Вычисление квадратного корня</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/style.css" rel="stylesheet">
 </head>
-<body>
-
-  <div class="rounded-field">
-    <form action="/post_num" class="input-group" method="post">
-      <input type="text" class="form-control" name="number" placeholder="Введите действительное или комплексное число (например: 25, -9, 3+4i)" required>
-      <button class="btn btn-primary" type="submit">Посчитать</button>
-    </form>
-
-    {% if result is not none %}
-      <div class="alert alert-info mt-3">
-        <strong>{{ type_of_result }}:</strong><br>
-        √({{ number }}) = {{ result }}
+<body data-theme="light">
+  <div class="wrapper">
+    <main class="rounded-field" aria-labelledby="main-heading">
+      <div class="d-flex justify-content-end align-items-center mb-3">
+        <label for="languageSelect" class="me-2" data-i18n="lang_label">Язык</label>
+        <select class="form-select w-auto" id="languageSelect" aria-label="Выбор языка">
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="zh">中文</option>
+          <option value="ar">العربية</option>
+          <option value="fr">Français</option>
+        </select>
       </div>
-    {% endif %}
+
+      <h1 id="main-heading" class="mb-4 text-center" data-i18n="main_heading">Вычисление квадратного корня</h1>
+
+      {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+          <strong data-i18n="error_label">Ошибка!</strong>
+          <span id="errorText" data-i18n="error_invalid">{{ error }}</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        </div>
+      {% endif %}
+
+      <form action="/post_num" method="post" aria-label="Форма вычисления квадратного корня">
+        <div class="input-group mb-2">
+          <input id="numberInput" type="text" class="form-control" name="number"
+                 data-i18n-placeholder="placeholder"
+                 placeholder="Введите действительное или комплексное число (например: 25, -9, 3+4i)" required
+                 aria-label="Введите число">
+          <button id="submitBtn" class="btn btn-primary" type="submit" data-i18n="submit">Посчитать</button>
+        </div>
+
+        <div class="mb-3 d-flex align-items-center">
+          <label for="precisionInput" class="me-2" data-i18n="precision_label">Точность</label>
+          <input id="precisionInput" type="number" class="form-control w-auto" name="precision"
+                 min="0" max="15" step="1" value="2" aria-label="Введите количество знаков после запятой">
+        </div>
+      </form>
+
+      {% if result is not none %}
+        <div class="alert alert-info" role="status">
+          <strong data-i18n="result_label">Результат</strong>:<br>
+          <span data-i18n="sqrt_symbol">√</span>(<span id="origNumberValue">{{ number }}</span>) <span data-i18n="equals_symbol">=</span> <span id="resultValue">{{ result }}</span>
+        </div>
+      {% endif %}
+
+      <div class="card mt-4">
+        <div class="card-body text-center">
+          <p class="welcome-text mb-2" data-i18n="welcome_text"></p>
+          <h5 class="instructions-title mb-3" data-i18n="instructions_title"></h5>
+          <ol class="text-start d-inline-block" data-i18n="instructions_list"></ol>
+        </div>
+      </div>
+
+
+      <div class="card mt-4">
+        <div class="card-body text-center">
+          <ol class="text-start d-inline-block" data-i18n="number_support"></ol>
+        </div>
+      </div>
+    </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const languageSelect = document.getElementById('languageSelect');
+      const translations = {
+  ru: {
+    title: "Вычисление квадратного корня",
+    lang_label: "Язык",
+    main_heading: "Вычисление квадратного корня",
+    error_label: "Ошибка!",
+    error_invalid: "Некорректный ввод. Пожалуйста, введите число.",
+    placeholder: "Введите действительное или комплексное число (например: 25, -9, 3+4i)",
+    submit: "Посчитать",
+    result_label: "Результат",
+    sqrt_symbol: "√",
+    equals_symbol: "=",
+    welcome_text: "Добро пожаловать в программу вычисления квадратного корня.",
+    instructions_title: "Инструкция по использованию:",
+    instructions_list: [
+      "Числа, из которых можно извлечь квадратный корень:",
+      "1) Любые целые положительные числа",
+      "2) Любые дробные положительные числа",
+      "3) Любые целые отрицательные числа",
+      "4) Любые дробные отрицательные числа",
+      "5) Любые комплексные числа",
+      "Правила написания комплексного числа в строку калькулятора:",
+      "Записывать комплексное число надо в формате a+bi, a-bi, либо просто bi.",
+      "Между числами и знаком нельзя ставить пробел или другие символы.",
+      "У мнимой части числа обязателен коэффициент (например, 2i, а не просто i)."
+    ],
+    number_support: [
+      "Техническая поддержка осуществляется в пн-пт с 9:00 до 18:00",
+      "email: Calcsupport43@gmail.com"
+    ],
+    precision_label: "Точность"
+  },
+  en: {
+    title: "Square Root Calculation",
+    lang_label: "Language",
+    main_heading: "Square Root Calculation",
+    error_label: "Error!",
+    error_invalid: "Invalid input. Please enter a number.",
+    placeholder: "Enter a real or complex number (e.g.: 25, -9, 3+4i)",
+    submit: "Calculate",
+    result_label: "Result",
+    sqrt_symbol: "√",
+    equals_symbol: "=",
+    welcome_text: "Welcome to the square root calculation program.",
+    instructions_title: "Instructions:",
+    instructions_list: [
+      "Numbers from which the square root can be extracted:",
+      "Any positive integers",
+      "Any positive fractional numbers",
+      "Any negative integers",
+      "Any negative fractional numbers",
+      "Any complex numbers",
+      "Rules for writing a complex number in the calculator input:",
+      "Write a complex number in the format a+bi, a-bi, or just bi.",
+      "Do not insert spaces or extra characters between numbers and signs.",
+      "The imaginary part must have a coefficient (e.g., 2i instead of just i)."
+    ],
+    number_support: [
+      "Technical support is available Mon-Fri from 9:00 to 18:00",
+      "email: Calcsupport43@gmail.com"
+    ],
+    precision_label: "Precision"
+  },
+  es: {
+    title: "Cálculo de la Raíz Cuadrada",
+    lang_label: "Idioma",
+    main_heading: "Cálculo de la Raíz Cuadrada",
+    error_label: "¡Error!",
+    error_invalid: "Entrada no válida. Por favor ingrese un número.",
+    placeholder: "Ingrese un número real o complejo (ej.: 25, -9, 3+4i)",
+    submit: "Calcular",
+    result_label: "Resultado",
+    sqrt_symbol: "√",
+    equals_symbol: "=",
+    welcome_text: "Bienvenido al programa de cálculo de la raíz cuadrada.",
+    instructions_title: "Instrucciones:",
+    instructions_list: [
+      "Números de los que se puede extraer la raíz cuadrada:",
+      "Cualquier número entero positivo",
+      "Cualquier número fraccionario positivo",
+      "Cualquier número entero negativo",
+      "Cualquier número fraccionario negativo",
+      "Cualquier número complejo",
+      "Reglas para escribir un número complejo en la entrada de la calculadora:",
+      "Escriba un número complejo en el formato a+bi, a-bi o solo bi.",
+      "No use espacios ni caracteres adicionales entre números y signos.",
+      "La parte imaginaria debe tener un coeficiente (ejemplo: 2i en lugar de solo i)."
+    ],
+    number_support: [
+      "El soporte técnico está disponible de lunes a viernes de 9:00 a 18:00",
+      "email: Calcsupport43@gmail.com"
+    ],
+    precision_label: "Precisión"
+  },
+  zh: {
+    title: "平方根计算",
+    lang_label: "语言",
+    main_heading: "平方根计算",
+    error_label: "错误！",
+    error_invalid: "输入无效。请输入一个数字。",
+    placeholder: "输入实数或复数 (例如: 25, -9, 3+4i)",
+    submit: "计算",
+    result_label: "结果",
+    sqrt_symbol: "√",
+    equals_symbol: "=",
+    welcome_text: "欢迎使用平方根计算程序。",
+    instructions_title: "使用说明:",
+    instructions_list: [
+      "可以开平方根的数:",
+      "任意正整数",
+      "任意正分数",
+      "任意负整数",
+      "任意负分数",
+      "任意复数",
+      "在计算器输入框中书写复数的规则:",
+      "复数必须写成 a+bi、a-bi 或仅 bi 的形式。",
+      "数字和符号之间不能有空格或其他字符。",
+      "虚部必须带系数（例如：2i，而不是仅 i）。"
+    ],
+    number_support: [
+      "技术支持时间：周一至周五 9:00-18:00",
+      "邮箱: Calcsupport43@gmail.com"
+    ],
+    precision_label: "精度"
+  },
+  ar: {
+    title: "حساب الجذر التربيعي",
+    lang_label: "اللغة",
+    main_heading: "حساب الجذر التربيعي",
+    error_label: "خطأ!",
+    error_invalid: "إدخال غير صالح. الرجاء إدخال رقم.",
+    placeholder: "أدخل عددًا حقيقيًا أو مركبًا (مثال: 25, -9, 3+4i)",
+    submit: "احسب",
+    result_label: "النتيجة",
+    sqrt_symbol: "√",
+    equals_symbol: "=",
+    welcome_text: "مرحبًا بك في برنامج حساب الجذر التربيعي.",
+    instructions_title: "التعليمات:",
+    instructions_list: [
+      "الأعداد التي يمكن استخراج الجذر التربيعي منها:",
+      "أي عدد صحيح موجب",
+      "أي عدد كسري موجب",
+      "أي عدد صحيح سالب",
+      "أي عدد كسري سالب",
+      "أي عدد مركب",
+      "قواعد كتابة العدد المركب في خانة الإدخال:",
+      "يجب كتابة العدد المركب بالصيغ a+bi أو a-bi أو فقط bi.",
+      "لا تستخدم مسافات أو رموز إضافية بين الأرقام والعلامات.",
+      "يجب أن يحتوي الجزء التخيلي دائمًا على معامل (مثال: 2i بدلًا من i فقط)."
+    ],
+    number_support: [
+      "يتوفر الدعم الفني من الاثنين إلى الجمعة من 9:00 حتى 18:00",
+      "البريد الإلكتروني: Calcsupport43@gmail.com"
+    ],
+    precision_label: "الدقة"
+  },
+  fr: {
+    title: "Calcul de la Racine Carrée",
+    lang_label: "Langue",
+    main_heading: "Calcul de la Racine Carrée",
+    error_label: "Erreur !",
+    error_invalid: "Entrée invalide. Veuillez entrer un nombre.",
+    placeholder: "Entrez un nombre réel ou complexe (ex: 25, -9, 3+4i)",
+    submit: "Calculer",
+    result_label: "Résultat",
+    sqrt_symbol: "√",
+    equals_symbol: "=",
+    welcome_text: "Bienvenue dans le programme de calcul de la racine carrée.",
+    instructions_title: "Instructions :",
+    instructions_list: [
+      "Nombres dont on peut extraire la racine carrée :",
+      "Tout entier positif",
+      "Tout nombre fractionnaire positif",
+      "Tout entier négatif",
+      "Tout nombre fractionnaire négatif",
+      "Tout nombre complexe",
+      "Règles pour écrire un nombre complexe dans le champ de la calculatrice :",
+      "Écrire un nombre complexe au format a+bi, a-bi ou simplement bi.",
+      "Ne mettez pas d'espaces ni de caractères supplémentaires entre les nombres et les signes.",
+      "La partie imaginaire doit avoir un coefficient (exemple : 2i au lieu de simplement i)."
+    ],
+    number_support: [
+      "Le support technique est disponible du lundi au vendredi de 9h00 à 18h00",
+      "email: Calcsupport43@gmail.com"
+    ],
+    precision_label: "Précision"
+  }
+      };
+
+      const setLanguage = (lang) => {
+        document.querySelectorAll("[data-i18n]").forEach(element => {
+          const key = element.getAttribute("data-i18n");
+          if (!key) return;
+
+          if (key === "instructions_list" || key === "number_support") {
+            element.innerHTML = translations[lang][key]
+              .map(item => `<li>${item}</li>`)
+              .join("");
+          } else if (translations[lang][key]) {
+            element.textContent = translations[lang][key];
+          }
+        });
+
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+          const key = element.getAttribute("data-i18n-placeholder");
+          if (translations[lang][key]) {
+            element.setAttribute("placeholder", translations[lang][key]);
+          }
+        });
+
+        document.title = translations[lang].title;
+
+        if (lang === "ar") {
+          document.documentElement.setAttribute("dir", "rtl");
+          document.body.classList.add("text-end");
+        } else {
+          document.documentElement.setAttribute("dir", "ltr");
+          document.body.classList.remove("text-end");
+        }
+      };
+
+      languageSelect.addEventListener("change", (event) => {
+        const lang = event.target.value;
+        localStorage.setItem("selectedLang", lang);
+        setLanguage(lang);
+      });
+
+      const savedLang = localStorage.getItem("selectedLang");
+      const initialLang = savedLang || navigator.language.split('-')[0] || 'ru';
+      if (translations[initialLang]) {
+        languageSelect.value = initialLang;
+        setLanguage(initialLang);
+      } else {
+        languageSelect.value = 'ru';
+        setLanguage('ru');
+      }
+    });
+  </script>
 </body>
 </html>
