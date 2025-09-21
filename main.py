@@ -122,36 +122,38 @@ def get_re_and_im(user_data: str) -> tuple:
             if spisok[0][1:].isdigit() and spisok[1].isdigit():
                 return float(0),float(user_data)
 
+
+
     if user_data[0].isdigit(): # ЕСЛИ ДЕЙСТВИТЕЛЬНАЯ ЧАСТЬ С ПЛЮСОМ
-        print(1)
         if user_data.count('+')==1: # ЕСЛИ МНИМАЯ ЧАСТЬ С ПЛЮСОМ
             user_data = user_data.split('+')
-            if len(user_data)==1:
+            print(user_data)
+            if (user_data[1])=='':
                 return float(user_data[0]),float(1)
             else:
                 return float(user_data[0]),float(user_data[1])
         else:                      # ЕСЛИ МНИМАЯ ЧАСТЬ С МИНУСОМ
             user_data = user_data.split('-')
-            if len(user_data)==1:
+            if (user_data[1])=='':
                 return float(user_data[0]),-float(1)
             else:
                 return float(user_data[0]),-float(user_data[1])
     else:                         # ЕСЛИ ДЕЙСТВИТЕЛЬНАЯ ЧАСТЬ С МИНУСОМ
         if user_data.count('+')==1: # ЕСЛИ МНИМАЯ ЧАСТЬ С ПЛЮСОМ
             user_data = user_data[1:].split('+')
-            if len(user_data)==1:
+            if (user_data[1])=='':
                 return -float(user_data[0]),float(1)
             else:
                 return -float(user_data[0]),float(user_data[1])
         else:                     # ЕСЛИ МНИМАЯ ЧАСТЬ С МИНУСОМ
             user_data = user_data[1:].split('-')
-            if len(user_data)==1:
+            if (user_data[1])=='':
                 return -float(user_data[0]),-float(1)
             else:
                 return -float(user_data[0]),-float(user_data[1])
 
 
-def get_complex_sqrt(re: int, im: int)->tuple:
+def get_complex_sqrt(re: int, im: int, precision: str)->tuple:
     '''Функция, извлекающая квадратный корень из комплексного числа с ненулевыми a и b'''
     print(re,im)
     if re==0:
@@ -200,7 +202,7 @@ def get_complex_sqrt(re: int, im: int)->tuple:
             if '.99999999' in str(im_of_sqrt2):
                 im_of_sqrt2 = int(str(im_of_sqrt2)[:str(im_of_sqrt2).find('.')])+1
 
-            return f"{real_of_sqrt1}+{im_of_sqrt1}i",f"{real_of_sqrt2}{im_of_sqrt2}i"
+            return f"{real_of_sqrt1:.{precision}f}+{im_of_sqrt1:.{precision}f}i",f"{real_of_sqrt2:.{precision}f}{im_of_sqrt2:.{precision}f}i"
         if im<0:
             D = (-4 * 0 + 4 * ((0 ** 2 + 1 ** 2) ** 0.5)) / 8
 
@@ -245,7 +247,7 @@ def get_complex_sqrt(re: int, im: int)->tuple:
             if '.99999999' in str(im_of_sqrt2):
                 im_of_sqrt2 = int(str(im_of_sqrt2)[:str(im_of_sqrt2).find('.')])+1
 
-            return f"{-1*((-im)**0.5)*sqrt_re_1}+{sqrt_im_1*((-im)**0.5)}i", f"{-1*((-im)**0.5)*sqrt_re_2}{sqrt_im_2*((-im)**0.5)}i"
+            return f"{-1*((-im)**0.5)*sqrt_re_1:.{precision}f}+{sqrt_im_1*((-im)**0.5):.{precision}f}i", f"{-1*((-im)**0.5)*sqrt_re_2:.{precision}f}{sqrt_im_2*((-im)**0.5):.{precision}f}i"
 
 
     D = (-4 * re + 4 * ((re ** 2 + im ** 2) ** 0.5)) / 8
@@ -286,7 +288,7 @@ def get_complex_sqrt(re: int, im: int)->tuple:
     if '.99999999' in str(sqrt_re_2):
         sqrt_re_2 = int(str(sqrt_re_2)[:str(sqrt_re_2).find('.')]) + 1
 
-    return f"{sqrt_re_1}+{sqrt_im_1}i",f"{sqrt_re_2}{sqrt_im_2}i"
+    return f"{sqrt_re_1:.{precision}f}+{sqrt_im_1:.{precision}f}i",f"{sqrt_re_2:.{precision}f}{sqrt_im_2:.{precision}f}i"
 
 
 
@@ -328,8 +330,8 @@ def get_number(request: Request, number: str = Form(...), precision: str = Form(
             return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "", "number": number, "result": f"{((-1*float(number))**0.5):.{precision}f}i ; {(-((-1*float(number))**0.5)):.{precision}f}i"})
     if is_complex(number):
         a,b = get_re_and_im(number)
-        result = get_complex_sqrt(a,b)
-        return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "", "number": number, "result": f"{result[0]:.{precision}f} ; {result[1]:.{precision}f}"})
+        result = get_complex_sqrt(a,b,precision)
+        return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "", "number": number, "result": f"{result[0]} ; {result[1]}"})
 
 
     return templates.TemplateResponse("index.html", {"request": request, "type_of_result": "", "error":"something"})
